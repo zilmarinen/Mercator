@@ -33,30 +33,69 @@ internal class MappingOperation: ConcurrentOperation,
                 Triangle($0.vertex)
             }
             
+            let scale = 1.0
             let bounds = surface.bounds(.region)
+            let rect = CGRect(x: 0,
+                              y: 0,
+                              width: ceil(bounds.size.x) * scale,
+                              height: ceil(bounds.size.z) * scale)
             
             guard let context = CGContext(data: nil,
-                                          width: 100,
-                                          height: 100,
+                                          width: Int(rect.size.width),
+                                          height: Int(rect.size.height),
                                           bitsPerComponent: 8,
-                                          bytesPerRow: 4 * 100,
+                                          bytesPerRow: 4 * Int(rect.size.width),
                                           space: CGColorSpaceCreateDeviceRGB(),
                                           bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue) else { fatalError("Invalid context") }
             
-            context.setFillColor(red: 1.0, green: 0.4, blue: 0.2, alpha: 1.0)
-            context.fill(.init(x: 0, y: 0, width: 50, height: 50))
+            context.setFillColor(red: 0.9686274509803922,
+                                 green: 0.9450980392156862,
+                                 blue: 0.8705882352941177,
+                                 alpha: 1.0)
+            context.fill(rect)
+            
+            context.setFillColor(red: 0.6901960784313725,
+                                 green: 0.7294117647058823,
+                                 blue: 0.6,
+                                 alpha: 1.0)
+            
+            for triangle in surface {
+                
+                guard let start = triangle.vertices.last?.position(.region) else { continue }
+                
+                context.beginPath()
+                context.move(to: .init(x: start.x * scale,
+                                       y: start.z * scale))
+                
+                for vertex in triangle.vertices {
+                    
+                    let position = vertex.position(.region)
+                
+                    context.addLine(to: .init(x: position.x * scale,
+                                              y: position.z * scale))
+                }
+                
+                context.fillPath()
+                
+                context.closePath()
+            }
             
             guard let cgImage = context.makeImage() else { fatalError("Error creating image") }
             
             let fileManager = FileManager.default
             
-            let path = fileManager.currentDirectoryPath.appending("mercator.png")
+            let path = fileManager.currentDirectoryPath.appending("/mercator.png")
             
             let url = URL(fileURLWithPath: path) as? CFURL
             
-            guard let destination = CGImageDestinationCreateWithURL(url!, kUTTypePNG, 1, nil) else { fatalError("Invalid destination") }
+            guard let destination = CGImageDestinationCreateWithURL(url!,
+                                                                    kUTTypePNG,
+                                                                    1,
+                                                                    nil) else { fatalError("Invalid destination") }
             
             CGImageDestinationAddImage(destination, cgImage, nil)
+            
+            CGImageDestinationFinalize(destination)
             
             output = .success(world)
         }
