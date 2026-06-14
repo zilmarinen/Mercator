@@ -5,19 +5,39 @@ import PackageDescription
 
 let package = Package(
     name: "Mercator",
-    platforms: [.macOS(.v14),
+    platforms: [.macOS(.v15),
                 .iOS(.v17)],
     products: [
         .library(name: "Mercator",
                  targets: ["Mercator"])
     ],
     dependencies: [
-        .package(url: "git@github.com:zilmarinen/Deltille.git",
+        .package(path: "../Alluvium"),
+        .package(path: "../Bivouac"),
+        .package(path: "../Harvest"),
+        .package(path: "../Deltille"),
+        .package(url: "https://github.com/nicklockwood/Euclid.git",
                  branch: "main"),
-        .package(url: "git@github.com:nicklockwood/Euclid.git",
-                 branch: "main")
+        .package(url: "https://github.com/apple/swift-argument-parser",
+                 from: "1.0.0"),
+        .package(url: "https://github.com/Velociti-Solutions/PeakOperation.git",
+                 branch: "master")
     ],
     targets: [
-        .target(name: "Mercator")
+        .executableTarget(name: "Cartographer",
+                         dependencies: ["Alluvium",
+                                        "Bivouac",
+                                        "Deltille",
+                                        "Euclid", 
+                                        "Harvest",
+                                        "PeakOperation",
+                                        .product(name: "ArgumentParser",
+                                                 package: "swift-argument-parser")]),
+        .target(name: "Mercator",
+                dependencies: ["Alluvium",
+                               "Bivouac",
+                               "Deltille",
+                               "Euclid",
+                               "Harvest"])
     ]
 )

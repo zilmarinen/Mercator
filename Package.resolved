@@ -1,22 +1,31 @@
 {
-  "originHash" : "6f3468b2c657c24e2a93fbfb275f9195eaed6dd8ab28a75f1b72b73b132dfa0b",
+  "originHash" : "df8dbaaf317389ce875d5ccdfacf049a9740021c7cbce44f6f51e762aa82a1e9",
   "pins" : [
-    {
-      "identity" : "deltille",
-      "kind" : "remoteSourceControl",
-      "location" : "git@github.com:zilmarinen/Deltille.git",
-      "state" : {
-        "branch" : "main",
-        "revision" : "1e2dfe7b1517ede73c8109c6a40815a2ea436322"
-      }
-    },
     {
       "identity" : "euclid",
       "kind" : "remoteSourceControl",
-      "location" : "git@github.com:nicklockwood/Euclid.git",
+      "location" : "https://github.com/nicklockwood/Euclid.git",
       "state" : {
         "branch" : "main",
         "revision" : "0409eab36ce4e726e5c66f8885500fb97b030994"
+      }
+    },
+    {
+      "identity" : "peakoperation",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Velociti-Solutions/PeakOperation.git",
+      "state" : {
+        "branch" : "master",
+        "revision" : "f5070818152d65d001455992c0b414727f8e19d4"
+      }
+    },
+    {
+      "identity" : "swift-argument-parser",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-argument-parser",
+      "state" : {
+        "revision" : "6a52f3251125d74daf04fcbd5e6f08a75d074382",
+        "version" : "1.8.2"
       }
     }
   ],
