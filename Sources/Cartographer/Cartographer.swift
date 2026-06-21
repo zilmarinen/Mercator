@@ -13,10 +13,13 @@ internal class Cartographer {
     internal let queue = OperationQueue()
     
     private let documentPath: String
+    private let scale: Int
     
-    internal init(documentPath: String) {
+    internal init(documentPath: String,
+                  scale: Int) {
         
         self.documentPath = documentPath
+        self.scale = scale
     }
     
     internal func execute() {
@@ -28,11 +31,14 @@ internal class Cartographer {
         // MARK: Operations
         
         let loadDocument = LoadDocumentOperation(url: url)
-        let mapWorld = MappingOperation()
+        let setupCanvas = CanvasSetupOperation(scale: scale)
+        let canvasToImage = CanvasToImageOperation()
         
         group.enter()
         
-        loadDocument.passesResult(to: mapWorld).enqueue(on: queue) { [weak self] result in
+        loadDocument.passesResult(to: setupCanvas)
+            .passesResult(to: canvasToImage)
+            .enqueue(on: queue) { [weak self] result in
             
             guard let self else { return }
             
