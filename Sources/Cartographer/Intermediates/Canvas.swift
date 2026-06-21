@@ -19,6 +19,8 @@ internal struct Canvas {
     internal let mapRect: CGRect
     internal let scale: Double
     
+    internal let worldOffset: Vector
+    
     internal init(bounds: Bounds,
                   scale: Double) {
         
@@ -53,6 +55,8 @@ internal struct Canvas {
                                            y: marginSize.height),
                              size: mapSize)
         self.scale = scale
+        
+        self.worldOffset = bounds.min
     }
 }
 
@@ -77,5 +81,77 @@ internal extension Canvas {
                                green: CGFloat(color.g),
                                blue: CGFloat(color.b),
                                alpha: CGFloat(color.a))
+    }
+}
+
+internal extension Canvas {
+    
+    func transpose(_ vector: Vector) -> Vector {
+        
+        ((vector - worldOffset) * scale) + .init(mapRect.origin.x,
+                                                 0,
+                                                 mapRect.origin.y)
+    }
+    
+    func move(to: Vector) {
+        
+        context.move(to: .init(x: to.x,
+                               y: to.z))
+    }
+    
+    func add(line to: Vector) {
+        
+        context.addLine(to: .init(x: to.x,
+                                  y: to.z))
+    }
+}
+
+internal extension Canvas {
+    
+    func draw(triangle: Triangle,
+              scale: Triangle.Scale,
+              using mode: CGPathDrawingMode = .fill) {
+        
+        let vertices = triangle.vertices.position(scale)
+        
+        let transposed = vertices.map {
+            
+            transpose($0)
+        }
+        
+        context.beginPath()
+        
+        move(to: transposed.last!)
+        
+        for vertex in transposed {
+            
+            add(line: vertex)
+        }
+        
+        context.drawPath(using: mode)
+        
+        context.closePath()
+    }
+    
+    func draw(path vertices: [Triangle.Stencil.Vertex],
+              stencil: Triangle.Stencil) {
+        
+        let transposed = vertices.map {
+            
+            transpose(stencil.vertex($0))
+        }
+        
+        context.beginPath()
+        
+        move(to: transposed.last!)
+        
+        for vertex in transposed {
+            
+            add(line: vertex)
+        }
+        
+        context.fillPath()
+        
+        context.closePath()
     }
 }

@@ -15,7 +15,7 @@ internal struct Mercator: ParsableCommand {
     internal var documentPath: String
     
     @Option(help: "Scale")
-    internal var scale: Int = 10
+    internal var scale: Int = 64
     
     internal mutating func run() throws {
         

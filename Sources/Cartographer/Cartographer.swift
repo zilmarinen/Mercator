@@ -32,11 +32,13 @@ internal class Cartographer {
         
         let loadDocument = LoadDocumentOperation(url: url)
         let setupCanvas = CanvasSetupOperation(scale: scale)
+        let mapping = MappingOperation()
         let canvasToImage = CanvasToImageOperation()
         
         group.enter()
         
         loadDocument.passesResult(to: setupCanvas)
+            .passesResult(to: mapping)
             .passesResult(to: canvasToImage)
             .enqueue(on: queue) { [weak self] result in
             
