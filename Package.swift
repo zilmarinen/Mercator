@@ -14,8 +14,9 @@ let package = Package(
     dependencies: [
         .package(path: "../Alluvium"),
         .package(path: "../Bivouac"),
-        .package(path: "../Harvest"),
         .package(path: "../Deltille"),
+        .package(path: "../Harvest"),
+        .package(path: "../Lattice"),
         .package(url: "https://github.com/nicklockwood/Euclid.git",
                  branch: "main"),
         .package(url: "https://github.com/apple/swift-argument-parser",
@@ -30,6 +31,7 @@ let package = Package(
                                         "Deltille",
                                         "Euclid", 
                                         "Harvest",
+                                        "Mercator",
                                         "PeakOperation",
                                         .product(name: "ArgumentParser",
                                                  package: "swift-argument-parser")]),
@@ -38,6 +40,7 @@ let package = Package(
                                "Bivouac",
                                "Deltille",
                                "Euclid",
-                               "Harvest"])
+                               "Harvest",
+                               "Lattice"])
     ]
 )

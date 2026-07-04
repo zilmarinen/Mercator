@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Mercator
 
 internal class Cartographer {
     
@@ -50,7 +51,7 @@ internal class Cartographer {
                 
             case .failure(let error):
                 
-                print("Error: [\(error.localizedDescription)]")
+                print("Error: [\(error)]")
             }
         
             self.group.leave()
