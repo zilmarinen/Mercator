@@ -155,7 +155,7 @@ private extension TerrainRenderOperation {
             
             guard vertex.elevation > adjacentElevation else { continue }
             
-            canvas.setFill(color: .black)
+            canvas.setStroke(color: .black)
             
             canvas.draw(line: [sv0, sv1],
                         stencil: stencil)

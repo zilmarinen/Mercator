@@ -25,6 +25,15 @@ public class CanvasToImageOperation: ConcurrentOperation,
     
     private let fileManager = FileManager.default
     
+    private let filename: String
+    
+    public init(filename: String) {
+        
+        self.filename = filename
+        
+        super.init()
+    }
+    
     override public func execute() {
         
         do {
@@ -33,7 +42,7 @@ public class CanvasToImageOperation: ConcurrentOperation,
             
             guard let cgImage = canvas.context.makeImage() else { fatalError("Error creating image") }
             
-            let path = fileManager.currentDirectoryPath.appending("/mercator.png")
+            let path = fileManager.currentDirectoryPath.appending("/\(filename)")
             
             let url = URL(fileURLWithPath: path) as CFURL
             let type = UTType.png.identifier as CFString

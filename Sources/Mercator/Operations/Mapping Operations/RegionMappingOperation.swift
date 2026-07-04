@@ -38,19 +38,6 @@ internal class RegionMappingOperation: ConcurrentOperation {
     
     override internal func execute() {
         
-        canvas.setFill(color: Canvas.borderStroke)
-        
-        canvas.draw(triangle: triangle,
-                    scale: .region,
-                    using:. stroke)
-        
-//        for tile in sieve.triangles {
-//            
-//            canvas.draw(triangle: tile,
-//                        scale: .tile,
-//                        using:. stroke)
-//        }
-        
         var operations: [ConcurrentOperation] = []
         
         if let water = region.water {

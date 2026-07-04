@@ -29,12 +29,15 @@ internal class Cartographer {
         
         let url = URL(filePath: documentPath)
         
+        let filename = url.lastPathComponent.replacingOccurrences(of: ".orchard",
+                                                                  with: ".png")
+        
         // MARK: Operations
         
         let loadDocument = LoadDocumentOperation(url: url)
         let setupCanvas = CanvasSetupOperation(scale: scale)
         let mapping = MappingOperation()
-        let canvasToImage = CanvasToImageOperation()
+        let canvasToImage = CanvasToImageOperation(filename: filename)
         
         group.enter()
         
